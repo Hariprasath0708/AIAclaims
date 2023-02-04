@@ -61,7 +61,7 @@
     console.log("Time of Accident: " + time);
     console.log("Location: " + location);
     console.log("Description: " + description);
-    
+    let accident={dataa,time,location,description};
     // Add your code here to process the collected data
   }function (submitAccidentDetails){
         window.parent.postMessage(
@@ -71,7 +71,8 @@
                 event: {
                   code: "Details",
                   data: {
-                    AccidentDetails: {"Date":date,"Time":time,"Location":location,"decription":description},
+                    AccidentDetails: accident,
+                    //{"Date":date,"Time":time,"Location":location,"decription":description}
                   },
                 },
               }),
