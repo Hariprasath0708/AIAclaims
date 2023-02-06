@@ -47,8 +47,7 @@
   <textarea id="description" name="description" placeholder="Enter a description of the accident"></textarea><br><br>
   
   <input type="submit" value="Submit">
-</form>
-
+</form> 
 
 <script>
   function submitAccidentDetails() {
@@ -56,29 +55,46 @@
     const time = document.getElementById("time").value;
     const location = document.getElementById("location").value;
     const description = document.getElementById("description").value;
-    
+     date=JSON.stringify(date);
+     time=JSON.stringify(time);
+     location=JSON.stringify(location);
+     decription=JSON.stringify(decription);
     console.log("Date of Accident: " + date);
     console.log("Time of Accident: " + time);
     console.log("Location: " + location);
     console.log("Description: " + description);
-    let accident={dataa,time,location,description};
-    // Add your code here to process the collected data
-  }function (submitAccidentDetails){
-        window.parent.postMessage(
+    let dataone = date + time + location + description;
+    window.parent.postMessage(
             JSON.stringify({
-              event_code: "ym-client-event",
-              data: JSON.stringify({
+              event_code: "ym-client-event", 
+              data:dataone,
+            //  data: JSON.stringify({
                 event: {
                   code: "Details",
                   data: {
-                    AccidentDetails: accident,
-                    //{"Date":date,"Time":time,"Location":location,"decription":description}
+                    AccidentDetails: dataone,
                   },
                 },
-              }),
+              //}),
             }),
             "*"
           );
+    // Add your code here to process the collected data
+//   }function (submitAccidentDetails){
+//         window.parent.postMessage(
+//             JSON.stringify({
+//               event_code: "ym-client-event",
+//               data: JSON.stringify({
+//                 event: {
+//                   code: "Details",
+//                   data: {
+//                     AccidentDetails: dataone,
+//                   },
+//                 },
+//               }),
+//             }),
+//             "*"
+//           );
    
          // alert(`${ratingValue} saved`);
     }
