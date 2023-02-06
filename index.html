@@ -1,101 +1,79 @@
-<style>
-  form {
-    width: 200px;
-    margin: 0 auto;
-    padding: px;
-    //border: 2px solid #ccc;
-  } 
-  
-  label {
-    display: block;
-    margin-bottom: 0px;
-    font-weight: bold;
-  }
-  
-  input, textarea {
-    width: 100%;
-    padding: 3px;
-    margin-bottom: 0px; 
-    border: 1px solid #ccc;
-    font-size: 16px;
-    box-sizing: border-box;
-  }
-  
-  input[type="submit"] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    margin-top: -10px;
-    border: none;
-    border-radius: 100px;
-    cursor: pointer;
-  }
-</style>
-
-<form onsubmit="submitAccidentDetails()">
-  <label for="date">Date of Accident:</label>
-  <input type="date" id="date" name="date"><br><br>
-  
-  <label for="time">Time of Accident:</label>
-  <input type="time" id="time" name="time"><br><br>
-  
-  <label for="location">Location:</label>
-  <input type="text" id="location" name="location" placeholder="Enter location"><br><br>
-  
-  <label for="description">Description:</label>
-  <textarea id="description" name="description" placeholder="Enter a description of the accident"></textarea><br><br>
-  
-  <input type="submit" value="Submit">
-</form> 
-
-<script>
-  function submitAccidentDetails() {
-    const date = document.getElementById("date").value;
-    const time = document.getElementById("time").value;
-    const location = document.getElementById("location").value;
-    const description = document.getElementById("description").value;
-     date=JSON.stringify(date);
-     time=JSON.stringify(time);
-     location=JSON.stringify(location);
-     decription=JSON.stringify(decription);
-    console.log("Date of Accident: " + date);
-    console.log("Time of Accident: " + time);
-    console.log("Location: " + location);
-    console.log("Description: " + description);
-    let dataone = date + time + location + description;
-    window.parent.postMessage(
+<!DOCTYPE html> 
+<html> 
+<head> 
+  <style> 
+    .form-container { 
+      width: 200px; 
+      margin: 0 auto; 
+      padding: 30px; 
+      background-color: #f2f2f2; 
+      border: 1px solid #ccc; 
+    } 
+    label { 
+      display: block; 
+      margin-bottom: 10px; 
+      font-weight: bold; 
+    } 
+    input[type="text"], 
+    input[type="email"], 
+    input[type="tel"] { 
+      width: 100%; 
+      padding: 10px; 
+      margin-bottom: 20px; 
+      box-sizing: border-box; 
+      border: 1px solid #ccc; 
+      font-size: 16px; 
+    } 
+    button[type="submit"] { 
+      width: 100%; 
+      padding: 10px; 
+      background-color: #4CAF50; 
+      color: white; 
+      font-size: 16px; 
+      cursor: pointer; 
+    } 
+  </style> 
+</head> 
+<body> 
+  <div class="form-container"> 
+    <form id="insurance-form"> 
+      <label for="name">Name:</label> 
+      <input type="text" id="name" name="name" required> 
+      <label for="email">Email:</label> 
+      <input type="email" id="email" name="email" required> 
+      <label for="policy-number">Policy Number:</label> 
+      <input type="text" id="policy-number" name="policy-number" required> 
+      <label for="phone-number">Phone Number:</label> 
+      <input type="tel" id="phone-number" name="phone-number" required> 
+      <button type="submit">Submit</button> 
+    </form> 
+  </div> 
+  <div id="data-container"></div> 
+  <script> 
+    const form = document.querySelector("#insurance-form"); 
+    form.addEventListener("submit", (event) => { 
+      event.preventDefault(); 
+      const formData = new FormData(form); 
+      const data = Object.fromEntries(formData); 
+      displayData(data); 
+    }); 
+    
+    function displayData(data) { 
+      const dataContainer = document.querySelector("#data-container"); 
+      dataContainer.innerHTML = ` 
+        <p>Name: ${data.name}</p> 
+        <p>Email: ${data.email}</p> 
+        <p>Policy Number: ${data.policyNumber}</p> 
+        <p>Phone Number: ${data.phoneNumber}</p> 
+      `; 
+      window.parent.postMessage(
             JSON.stringify({
-              event_code: "ym-client-event", 
-              data:dataone,
-            //  data: JSON.stringify({
-                event: {
-                  code: "Details",
-                  data: {
-                    AccidentDetails: dataone,
-                  },
-                },
-              //}),
+              event_code: "ym-client-event",
+            
+               data:data.name
+              
             }),
             "*"
           );
-    // Add your code here to process the collected data
-//   }function (submitAccidentDetails){
-//         window.parent.postMessage(
-//             JSON.stringify({
-//               event_code: "ym-client-event",
-//               data: JSON.stringify({
-//                 event: {
-//                   code: "Details",
-//                   data: {
-//                     AccidentDetails: dataone,
-//                   },
-//                 },
-//               }),
-//             }),
-//             "*"
-//           );
-   
-         // alert(`${ratingValue} saved`);
-    }
-</script>
+    } 
+  </script>
